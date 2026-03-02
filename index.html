@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="body.css">
+</head>
+    
+<body>
+<div class="login-container">
+  <form class="login-form">
+    <h2 align="middle">Welcome Back !</h2>
+
+    <div class="form-group">
+      <label>Email (Username)</label>
+      <input type="email" id="loginEmail" placeholder="Enter your email">
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password">
+    </div>
+
+    <div class="form-options">
+      Term & Condition <input type="checkbox">
+    </div>
+
+    <button type="submit" class="login-btn">Login</button>
+
+    <p class="register-link">
+      Don't have an account? <a href="raj.html">Create new account</a>
+    </p>
+  </form>
+</div>
+
+<!-- BACKEND CONNECTION SCRIPT -->
+<script>
+document.querySelector(".login-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+        alert("Email and Password required ❌");
+        return;
+    }
+
+    const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email,
+            password
+        })
+    });
+
+    const data = await response.json();
+    alert(data.message);
+
+    if (data.message.includes("Successful")) {
+        window.location.href = "welcome.html"; 
+    }
+});
+</script>
+
+</body>
+</html>
